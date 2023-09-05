@@ -22,7 +22,7 @@ namespace ShooppyMegaMall.Infrastructure.Repository
 
         public async Task<List<Brands>> GetBrands(int orgid)
         {
-          var  brands = await _dbContext.Brands.Where(x => x.OrgId == orgid).ToListAsync();
+          var  brands = await _dbContext.Brands.Where(x=>x.BrandImage != string.Empty && x.BrandImage != null).Take(10).ToListAsync();
              return brands;
         }
 
@@ -39,18 +39,17 @@ namespace ShooppyMegaMall.Infrastructure.Repository
             return await _dbContext.Set<f_getproducts_By_OrgID>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
         }
 
-        public async Task<List<f_getproducts_By_NewArrivals>> _Getproducts_By_NewArrivals(int orgid)
+        public async Task<List<SP_getproducts_By_NewArrivals>> _Getproducts_By_NewArrivals(int orgid)
         {
 
-            string sql = "select * from f_getproducts_By_statusspecification(@orgid)";
+            string sql = "EXEC SP_getproducts_By_statusspecification";
 
             List<SqlParameter> parms = new List<SqlParameter>
-            { 
-                // Create parameters    
-                new SqlParameter { ParameterName = "@orgid", Value = orgid }
+            {  
+
             };
 
-            var productlist = await _dbContext.Set<f_getproducts_By_NewArrivals>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
+            var productlist = await _dbContext.Set<SP_getproducts_By_NewArrivals>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
 
             var filter = productlist.GroupBy(x => x.StatusId).SelectMany(x=>x).ToList();
 
@@ -72,16 +71,14 @@ namespace ShooppyMegaMall.Infrastructure.Repository
         }
         public async Task<List<sp_getcat_Result>> Sp_Getcat(int orgid)
         {
-            string sql = "EXEC sp_getcat @orgid";
+            string sql = "EXEC sp_getcat";
 
             List<SqlParameter> parms = new List<SqlParameter>
             { 
-                // Create parameters    
-                new SqlParameter { ParameterName = "@orgid", Value = orgid }
             };
             var CatList = await _dbContext.Set<sp_getcat_Result>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
 
-            var FilterCat = CatList.Where(x => x.PARENT_NAMEID != 0).ToList();
+            var FilterCat = CatList.Where(x => x.PARENT_NAMEID != 0).TakeLast(5).ToList();
 
             return FilterCat;
         }

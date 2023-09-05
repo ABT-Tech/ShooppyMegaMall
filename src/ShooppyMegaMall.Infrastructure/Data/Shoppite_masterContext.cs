@@ -87,7 +87,7 @@ namespace ShooppyMegaMall.Infrastructure.Data
         public virtual DbSet<sp_getcat_Result> Sp_Getcat_Results { get; set; }
         public virtual DbSet<SP_Status_HasProducts_Result> SP_Status_hasProducts_results { get; set; }
         public virtual DbSet<F_Topcat_Result> F_Topcat_Results { get; set; }
-        public virtual DbSet<f_getproducts_By_NewArrivals> F_Getproducts_By_NewArrivals { get; set; }
+        public virtual DbSet<SP_getproducts_By_NewArrivals> SP_getproducts_By_NewArrivals { get; set; }
         public virtual DbSet<f_getproducts_By_OrgID> F_Getproducts_By_OrgID { get; set; }
         public virtual DbSet<f_getproducts_By_CategoryID> F_Getproducts_By_CategoryID { get; set; }
         public virtual DbSet<f_getproducts_By_CategoryID_Result> f_getproducts_By_CategoryID_Result { get; set; }
@@ -1342,7 +1342,7 @@ namespace ShooppyMegaMall.Infrastructure.Data
             {
                 entity.HasNoKey();
             });
-            modelBuilder.Entity<f_getproducts_By_NewArrivals>(entity =>
+            modelBuilder.Entity<SP_getproducts_By_NewArrivals>(entity =>
             {
                 entity.HasNoKey();
             });

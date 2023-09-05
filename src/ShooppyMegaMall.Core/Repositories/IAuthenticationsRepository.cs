@@ -8,7 +8,7 @@ namespace ShooppyMegaMall.Core.Repositories
 {
    public interface IAuthenticationsRepository
     {   
-        Task<Users> GetAuthenticato_Details(string email, string password,int orgid);
+        Task<Users> GetAuthenticato_Details(string email, string password);
         Task<Logo> Get_Logo(int orgid);
         Task<Users> RegisterDetail(string userName, string password, string email, int orgId);
         Task<Users> ForgotPass(string email, string password, int orgId);

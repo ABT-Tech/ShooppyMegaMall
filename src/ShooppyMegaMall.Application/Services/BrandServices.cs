@@ -48,7 +48,7 @@ namespace ShooppyMegaMall.Application.Services
             //main.f_Getproducts_By_OrgIDModel = ObjectMapper.Mapper.Map<List<f_getproducts_By_OrgIDModel>>(GetCategoryByOrg);
 
             var getnewProduct = await _BrandRepository._Getproducts_By_NewArrivals(orgid);
-            main.ProductNewArrivalModel = ObjectMapper.Mapper.Map<List<f_getproducts_By_NewArrivalsModel>>(getnewProduct);
+            main.ProductNewArrivalModel = ObjectMapper.Mapper.Map<List<SP_getproducts_By_NewArrivalsModel>>(getnewProduct);
 
             string ipAddress = _accessor.HttpContext.Connection.RemoteIpAddress.ToString();
 
@@ -65,7 +65,7 @@ namespace ShooppyMegaMall.Application.Services
         {
             MainModel main = new MainModel();
             var GetNewProducts = await _BrandRepository.GetCategoryBy_Org(orgid);
-            main.ProductNewArrivalModel = ObjectMapper.Mapper.Map<List<f_getproducts_By_NewArrivalsModel>>(GetNewProducts);
+            main.ProductNewArrivalModel = ObjectMapper.Mapper.Map<List<SP_getproducts_By_NewArrivalsModel>>(GetNewProducts);
             return main;
         }
 
@@ -89,7 +89,7 @@ namespace ShooppyMegaMall.Application.Services
         {
             MainModel main = new MainModel();
             var getnewProduct = await _BrandRepository._Getproducts_By_NewArrivals(orgid);
-            main.ProductNewArrivalModel = ObjectMapper.Mapper.Map<List<f_getproducts_By_NewArrivalsModel>>(getnewProduct);
+            main.ProductNewArrivalModel = ObjectMapper.Mapper.Map<List<SP_getproducts_By_NewArrivalsModel>>(getnewProduct);
             return main;
         }
         public async Task<List<ProductDetailModel>> Get_Recently_Product(string id, int orgid)

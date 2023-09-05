@@ -44,18 +44,16 @@ namespace ShooppyMegaMall.Application.Services
             return users;
         }
 
-        public async Task<UsersModal> Get_Login_Data(string email, string passWord, int orgid)
+        public async Task<UsersModal> Get_Login_Data(string email, string passWord)
         {
             UsersModal users = new UsersModal();
             users.LastLoginDate = DateTime.Now;
-            var UserLogin = await _AuthenticationRepository.GetAuthenticato_Details(email, passWord, orgid);
-            var logo = await _AuthenticationRepository.Get_Logo(orgid);
+            var UserLogin = await _AuthenticationRepository.GetAuthenticato_Details(email, passWord);
             users = ObjectMapper.Mapper.Map<UsersModal>(UserLogin);
             if (users == null)
             {
                 users = new UsersModal();
             }
-            users.LogoModel = ObjectMapper.Mapper.Map<LogoModel>(logo);
             return users;
         }
 

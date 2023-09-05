@@ -149,17 +149,19 @@ namespace ShooppyMegaMall.UI.Controllers
         }
         public ActionResult MerchantTermsAndCondition()
         {
-            ViewBag.OrganizationName = _commonHelper.OrganizationName(HttpContext);
             return View();
         }
         public ActionResult MerchantPrivacyPolicy()
         {
-            ViewBag.OrganizationName = _commonHelper.OrganizationName(HttpContext);
             return View();
         }
         public ActionResult MerchantRefundPolicy()
         {
-            ViewBag.OrganizationName = _commonHelper.OrganizationName(HttpContext);
+            return View();
+        }
+
+        public ActionResult ShippingPolicy()
+        {
             return View();
         }
     }

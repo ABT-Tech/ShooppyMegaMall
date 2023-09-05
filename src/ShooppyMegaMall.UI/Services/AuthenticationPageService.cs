@@ -32,9 +32,9 @@ namespace ShooppyMegaMall.UI.Services
             return await _AuthenticationService.ForgotPass(email, password, orgId);
         }
 
-        public async Task<UsersModal> Get_Login_Data(string email, string password, int orgid)
+        public async Task<UsersModal> Get_Login_Data(string email, string password)
         {
-            return await _AuthenticationService.Get_Login_Data(email, password, orgid);
+            return await _AuthenticationService.Get_Login_Data(email, password);
         }
 
         public async Task<UsersModal> Get_Logo(int orgid)

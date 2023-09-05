@@ -31,6 +31,6 @@ namespace ShooppyMegaMall.Application.Models
         public DateTime? LastLoginDate { get; set; }
         public Guid Guid { get; set; }
         public int? OrgId { get; set; }
-       public LogoModel LogoModel { get; set; } 
+       public LogoModel? LogoModel { get; set; } 
     }
 }

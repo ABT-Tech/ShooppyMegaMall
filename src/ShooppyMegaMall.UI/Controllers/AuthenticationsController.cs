@@ -66,8 +66,8 @@ namespace ShooppyMegaMall.UI.Controllers
             if (usersModal != null)
             {
 
-                int OrgId = _commonHelper.GetOrgID(HttpContext);
-                var UserValidate = await _AuthenticationPageService.Get_Login_Data(usersModal.Email, usersModal.Password, OrgId);
+               // int OrgId = _commonHelper.GetOrgID(HttpContext);
+                var UserValidate = await _AuthenticationPageService.Get_Login_Data(usersModal.Email, usersModal.Password);
                 if (UserValidate.Password != null && UserValidate.Email != null)
                 {
                     await CreateAuthenticationTicket(UserValidate);
