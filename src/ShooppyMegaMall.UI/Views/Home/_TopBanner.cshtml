@@ -1,0 +1,45 @@
+﻿@model ShooppyMegaMall.Application.Models.MainModel
+@if (Model.TopBanner.Count == 0)
+{
+    @if (Model.BannersByCategory.Count == 0)
+    {
+        @if (Model.CategoryBanner != null)
+        {
+            @foreach (var image in Model.CategoryBanner)
+            {
+                if (image.Banner != null)
+                {
+                    <a asp-action="AllProducts" asp-route-CategoryId="@image.CategoryId" name="topbannerimage"><img src="@image.Banner" alt="slidertopimage" class="rounded-3 lazy" loading="lazy" /></a>
+                }
+            }
+        }
+    }
+    else
+    {
+        @if (Model.BannersByCategory != null)
+        {
+            @foreach (var image in Model.BannersByCategory)
+            {
+                if (image.Banner != null)
+                {
+                    <a asp-action="AllProducts" asp-route-CategoryId="@image.CategoryId" name="topbannerimage"><img src="@image.Banner" alt="slidertopimage" class="rounded-3 lazy" loading="lazy" /></a>
+                }
+            }
+        }
+
+    }
+}
+else
+{
+    @if (Model.TopBanner != null)
+    {
+        @foreach (var image in Model.TopBanner)
+        {
+            if (image.Image != null)
+            {
+                <a asp-action="AllProducts" asp-route-CategoryId="@image.CategoryId" name="topbannerimage"><img src="@image.Image" alt="slidertopimage" class="rounded-3 lazy" loading="lazy" /></a>
+            }
+        }
+
+    }
+}

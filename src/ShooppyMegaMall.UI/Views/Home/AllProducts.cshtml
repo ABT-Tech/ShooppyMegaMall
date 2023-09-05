@@ -1,0 +1,99 @@
+﻿@model ShooppyMegaMall.Application.Models.MainModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<div class="main-area">
+    <div class="product-categori-area">
+        <div class="container-fluid">
+            <div class="product-categori">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-9 col-md-12">
+                        <div id="content" class="categori-content">
+                            @foreach (var catname in Model.Product_specification.Take(1))
+                            {
+                                <h1 class="page-heading product-listing">
+                                    <span class="cat-name">@catname.category_name</span>
+                                </h1>
+                            }
+                            <div id="my-tab-content" class="tab-content jump">
+                                <div class="producresults">
+                                    @if (Model.Product_specification.Count > 0)
+                                    {
+                                        @await Html.PartialAsync("_ProductsByAttribute", Model)
+                                    }
+                                    else
+                                    {
+                                            <img src="~/img/NoProduct.png" loading="lazy" alt="noproductimg" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12">
+                        <div class="categori-sidebar">
+                            <h4>Catalog</h4>
+                            <div class="categoris categori-border">
+                                @foreach (var at in Model.Attributes)
+                                {
+                                    <span class="cat-title">@at.AttributeName</span>
+                                    <ul>
+                                            @for(int i=0;i< at.specifications.Count;i++)
+                                            {
+                                               <li>
+                                                  <span><input type="checkbox"   class="checkbox profileCheckbox" name="SpecificationName[]" value="@at.specifications[i].SpecificationName" id="chk_@i"  ></span>
+                                                  <label for="chk_@i">
+                                                      @at.specifications[i].SpecificationName
+                                                  </label>
+                                              </li>
+                                        }
+                                    </ul>
+                                }
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("_BrandZone", Model)
+</div>   
+<script>
+    $(".profileCheckbox").click(function () {
+        var data = getCategoryID();
+        var seasoning = '', tempArray = [];
+        $('input[name="SpecificationName[]"]:checked').each(function () {
+            tempArray.push($(this).val());
+        })
+        if (tempArray.length !== 0) {
+            seasoning += 'SpecificationName=' + tempArray.toString();
+            tempArray = [];
+        }
+        window.history.replaceState(null, null, "?" + data + '&' + seasoning);
+        if (seasoning != '') {
+            $.ajax({
+                url: '@Url.Action("_ProductsByAttribute", "Home")' + '?' + data + '&' + seasoning,
+                type: "GET",
+                success: function (data) {
+                    $(".producresults").html(data);
+                }
+            });
+        }
+        else {
+             window.history.replaceState(null, null, "?" + data);
+                $.ajax({
+                    url: '@Url.Action("_ProductsByAttribute", "Home")' + '?' + data,
+                    type: "GET",
+                    success: function (data) {
+                        $(".producresults").html(data);
+                    }
+                });
+        }
+    });
+        function getCategoryID()
+        {
+            const urlParams = new URLSearchParams(location.search);
+            for (const [key, value] of urlParams) {
+                console.log(key);
+                console.log(value);
+                return key +'='+ value
+            }
+        }
+</script>

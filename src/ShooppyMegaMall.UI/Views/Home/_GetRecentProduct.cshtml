@@ -1,0 +1,38 @@
+﻿@model ShooppyMegaMall.Application.Models.MainModel
+@if (Model.f_Getproducts_RecentlyviewedModel.Count > 0)
+{
+    <div class="new-product-area">
+        <div class="container-fluid">
+            <div class="new-product-title">
+                <h4><span>Recently Viewed</span></h4>
+            </div>
+            <div class="producttabcarosel carosel-product5 owl-carousel">
+                @foreach (var product in Model.f_Getproducts_RecentlyviewedModel)
+                {
+                    <div class="product-item" style="height: 340px;">
+                        <div class="top-item">
+                            <a href="@Url.Action("Details", "ProductDetail", new { id = product.ProductGUID })" name="productwiselink">
+                                <img src="@product.image" alt="@product.ProductName" loading="lazy" style="height: 244px;width: 299px;" class="lazy">
+                            </a>
+                        </div>
+                        <div class="bottom-item">
+                            <div class="product-info">
+                                <h5><a href="@Url.Action("Details", "ProductDetail", new { id = product.ProductGUID })" name="productslink" class="product_name_Over">@product.ProductName</a></h5>
+                                <span>
+                                    ₹@product.Price &nbsp;&nbsp;
+                                    @if (product.OldPrice != null)
+                                    {
+                                        <del>₹@product.OldPrice</del>
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div> 
+    }
+else
+{
+}

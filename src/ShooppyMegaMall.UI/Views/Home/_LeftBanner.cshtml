@@ -1,0 +1,12 @@
+﻿@model ShooppyMegaMall.Application.Models.MainModel
+@if (Model.LeftBanner != null)
+{
+    @foreach (var image in Model.LeftBanner.TakeLast(1))
+    {
+        @if (image.Image != null) {
+            <a asp-action="AllProducts" asp-route-CategoryId="@image.CategoryId" name="leftbannerlink"><img src="@Url.Content("~")@image.Image" loading="lazy" alt="leftbannerimg"/></a>
+            }
+    }
+}
+
+

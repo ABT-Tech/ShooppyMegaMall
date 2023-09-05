@@ -1,0 +1,22 @@
+﻿@model ShooppyMegaMall.Application.Models.MainModel
+<style>
+    #bottomimg {
+        margin-top: 22px;
+    }
+</style>
+@foreach (var image in Model.BottomBanner.TakeLast(1))
+{
+    <div class="static-blog-area">
+        <div class="container">
+            <div class="image-static">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="static-blog-image">
+                            <a asp-action="AllProducts" asp-route-CategoryId="@image.CategoryId" ><img id="bottomimg" src="@image.Image" loading="lazy" alt="bottombanner" class="lazy"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

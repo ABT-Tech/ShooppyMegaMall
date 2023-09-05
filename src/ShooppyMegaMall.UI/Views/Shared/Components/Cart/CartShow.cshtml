@@ -1,0 +1,47 @@
+﻿@model ShooppyMegaMall.Application.Models.CartModel
+  <style>
+      .HeadCart {
+          margin: 10px 14px;
+          font-size: 35px;
+          color: #fff;
+      }
+      .fa-shopping-cart {
+          margin: 12px 9px;
+          font-size: 34px;
+          color: #fff;
+      }
+  </style>
+<div class="service-icon-text service-text-icon-active col-lg-3 col-md-3 col-3">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-action="Cart" asp-controller="Cart" class="d-flex" name="link">
+            <div class="service-icon floatleft">
+                <i class="fa fa-shopping-cart HeadCart"></i>
+            </div>
+            <div class="service-text floatright d-none d-sm-none d-md-block pl-2">
+                <h3>My Cart</h3>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p>@Model.F_Getproduct_CartDetails_By_Orgids.Count item</p>
+                }
+                else
+                {
+                    <p>Please login</p>
+                }
+            </div>
+        </a>
+    }
+    else
+    {
+        <a asp-action="Login" asp-controller="Authentications" class="d-flex" name="link">
+            <div class="service-icon floatleft">
+                <i class="fa fa-shopping-cart"></i>
+            </div>
+            <div class="service-text floatright d-none d-sm-none d-md-block pl-2">
+                <h3>My Cart</h3>
+                <p>Please login</p>
+            </div>
+        </a>
+    }
+</div>
+

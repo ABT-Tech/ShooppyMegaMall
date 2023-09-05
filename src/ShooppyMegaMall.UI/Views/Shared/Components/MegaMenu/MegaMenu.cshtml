@@ -1,0 +1,74 @@
+﻿@model ShooppyMegaMall.Application.Models.MainModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<div class="megamenu-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="megamenu">
+                    <nav>
+                        <ul>
+                            <li> 
+                                <a class="home" href="/" name="link">Home</a>
+                            </li>
+                            @await Html.PartialAsync("/Views/Home/_Categories.cshtml", Model)
+                            @await Html.PartialAsync("/Views/Home/_MoreCategories.cshtml", Model)
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="search-box">
+                    <form method="get" asp-action="SearchProduct" asp-controller="Home" id="searchbox-eleyas">
+                        <p>
+                            <input type="text" asp-for="searchKey" placeholder="Your keyword...">
+                            <button class="button-search" name="submitbtn" type="submit">
+                                <span><i class="fa fa-search"></i></span>
+                            </button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mobile-menu-area">
+    <div class="container">
+        <div class="mobile-menu clearfix">
+            <nav id="dropdown">
+                <ul class="nav">
+                    <li>
+                        <a href="/" name="link">Home</a>
+                    </li>
+                    @foreach (var item in Model.ProductsDetails)
+                    {
+                        <li>
+                            <a name="link">@item.maincaturlpath </a>
+                            <ul>
+                                <li>
+                                    @foreach (var subcat in item.SubcategoryDetails)
+                                     {
+                                        <a  name="link" asp-controller="Home" asp-route-CategoryId="@subcat.CategoryId" asp-action="AllProducts">@subcat.CategoryName</a>
+                                     }
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    </ul>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mobile-search-box">
+                    <form method="get" asp-action="SearchProduct" asp-controller="Home" id="searchbox-eleyas">
+                        <p>
+                            <input type="text" asp-for="searchKey" placeholder="You keyword...">
+                            <button class="button-search" name="submitbtn" type="submit">
+                                <span><i class="fa fa-search"></i></span>
+                            </button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model List<ShooppyMegaMall.Application.Models.ProductBasicModel>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Search Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="product-categori-area">
+    <div class="container-fluid">
+        <div class="product-categori">
+            <div class="row flex-row-reverse">
+                <div class="col-lg-12 col-md-12">
+                    <div id="content" class="categori-content">
+                        <h1 class="page-heading product-listing">
+                            <span class="cat-name">Products By Search</span>
+                        </h1>
+                        <div id="my-tab-content" class="tab-content jump">
+                            <div id="grid" class="tab-pane active categoti-grid-view">
+                                <div class="row">
+                                    @foreach (var product in Model)
+                                    {
+                                        <div class="col-md-4 col-lg-4 col-sm-6 col-xl-3 mb-3" style="margin-top:25px">
+                                            <div class="product-item">
+                                                <div class="top-item">
+                                                    <a href="@Url.Action("Details","ProductDetail", new {id = product.ProductGuid })" name="productslink">
+                                                        <img style="height:244px;width:250px" src="@product.CoverImage" loading="lazy" alt="@product.ProductName">
+                                                    </a>
+                                                </div>
+                                                <div class="bottom-item">
+                                                    <div class="product-info">
+                                                        <h5><a href="@Url.Action("Details","ProductDetail" , new { id = product.ProductGuid })" name="productslink" class="product_name_Over">@product.ProductName</a></h5>
+                                                        <span>₹@product.Price &nbsp;&nbsp;  @if (product.OldPrice != null)
+                                                        {<del>₹@product.OldPrice</del>}</span>
+                                                        <p>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
