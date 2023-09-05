@@ -6,7 +6,7 @@
         <div class="megamenudown-mini home-ve">
             <div class="mega-top">
                 <div class="mega-item-menu" style="max-width: 220px !important;">
-                    @foreach (var item in Model.Categories.Where(x=>x.ParentCategoryId!=0))
+                    @foreach (var item in Model.Categories.Where(x=>x.ParentCategoryId!=0).Take(20))
                     {
                         <a asp-action="AllProducts" asp-route-CategoryId="@item.CategoryId" asp-controller="Home" title="@item.CategoryName" name="categorynamelink" class="product_name_Over"><span>@item.CategoryName</span></a>
                     }  

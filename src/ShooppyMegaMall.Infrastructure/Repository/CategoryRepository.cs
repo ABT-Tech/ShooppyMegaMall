@@ -25,8 +25,8 @@ namespace ShooppyMegaMall.Infrastructure.Repository
             var q = (from ad_detail in _dbContext.AdsDetail
                      join ad_place in _dbContext.AdsPlacement on ad_detail.AdsPlacementId equals ad_place.AdsPlacementId
                      join ad_pagename in _dbContext.AdsPageName on ad_detail.AdsPageId equals ad_pagename.AdsPageId
-                     where ad_pagename.PageName=="Home" && ad_place.PlacementName == "Top" && ad_detail.Status == "Active" && ad_detail.OrgId == orgId
-                     select ad_detail).ToList();
+                     where ad_pagename.PageName=="Home" && ad_place.PlacementName == "Top" && ad_detail.Status == "Active"
+                     select ad_detail).Take(5).ToList();
             return q;
         }
         public async Task<List<AdsDetail>> GetMiddelBannerImage(int orgId)
@@ -34,23 +34,22 @@ namespace ShooppyMegaMall.Infrastructure.Repository
             var q = (from ad_detail in _dbContext.AdsDetail
                      join ad_place in _dbContext.AdsPlacement on ad_detail.AdsPlacementId equals ad_place.AdsPlacementId
                      join ad_pagename in _dbContext.AdsPageName on ad_detail.AdsPageId equals ad_pagename.AdsPageId
-                     where ad_pagename.PageName.Contains("Home") && ad_place.PlacementName == "Middle" && ad_detail.Status=="Active"&& ad_detail.OrgId == orgId
-                     select ad_detail).ToList();
+                     where ad_pagename.PageName.Contains("Home") && ad_place.PlacementName == "Middle" && ad_detail.Status=="Active"
+                     select ad_detail).Take(2).ToList();
             return q;
         }
         public async Task<IEnumerable<f_getproducts_By_CategoryID_Result>> GetProductList(int orgId)
         {
-            string sql = "select * from f_cat_getproducts_By_OrgID(@ID)";
+            string sql = "Exec SP_cat_getproducts_By_OrgID ";
             List<SqlParameter> parms = new List<SqlParameter>
             {
-                new SqlParameter { ParameterName = "@ID", Value = orgId }
             };
              return await _dbContext.Set<f_getproducts_By_CategoryID_Result>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
             //return f_getproducts_By_CategoryID_ResultList;
         }
         public async Task<List<CategoryMaster>> GetCategories(int CategoryId,int orgId)
         {
-            return await _dbContext.CategoryMaster.Where(x=>x.OrgId== orgId).ToListAsync();
+            return await _dbContext.CategoryMaster.ToListAsync();
         }
         public async Task<Logo> DisplayLogo(int orgId)
         {
@@ -61,7 +60,7 @@ namespace ShooppyMegaMall.Infrastructure.Repository
             var q = (from ad_detail in _dbContext.AdsDetail
                      join ad_place in _dbContext.AdsPlacement on ad_detail.AdsPlacementId equals ad_place.AdsPlacementId
                      join ad_pagename in _dbContext.AdsPageName on ad_detail.AdsPageId equals ad_pagename.AdsPageId
-                     where ad_pagename.PageName.Contains("Home") && ad_place.PlacementName == "Bottom" && ad_detail.OrgId == orgId
+                     where ad_pagename.PageName.Contains("Home") && ad_place.PlacementName == "Bottom"
                      select ad_detail).ToList().TakeLast(1); 
             return q.ToList();
         }
@@ -129,8 +128,8 @@ namespace ShooppyMegaMall.Infrastructure.Repository
                      join ad_place in _dbContext.AdsPlacement on ad_detail.AdsPlacementId equals ad_place.AdsPlacementId
                      join ad_pagename in _dbContext.AdsPageName on ad_detail.AdsPageId equals ad_pagename.AdsPageId
                      join categories in _dbContext.CategoryMaster on ad_detail.CategoryId equals categories.CategoryId
-                     where  ad_detail.Status == "Active" && ad_detail.OrgId == orgId
-                     select ad_detail).ToList();
+                     where  ad_detail.Status == "Active"
+                     select ad_detail).Take(5).ToList();
             return q;
         }
         public async Task<List<AdsDetail>> GetLeftBanner(int orgId)
@@ -139,7 +138,7 @@ namespace ShooppyMegaMall.Infrastructure.Repository
             var q = (from ad_detail in _dbContext.AdsDetail
                      join ad_place in _dbContext.AdsPlacement on ad_detail.AdsPlacementId equals ad_place.AdsPlacementId
                      join ad_pagename in _dbContext.AdsPageName on ad_detail.AdsPageId equals ad_pagename.AdsPageId
-                     where ad_pagename.PageName.Contains("Home") && ad_place.PlacementName == "Left Side" && ad_detail.OrgId == orgId
+                     where ad_pagename.PageName.Contains("Home") && ad_place.PlacementName == "Left Side"
                      select ad_detail).ToList().TakeLast(1);
             return q.ToList();
         }

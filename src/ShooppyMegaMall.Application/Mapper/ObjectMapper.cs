@@ -30,9 +30,9 @@ namespace ShooppyMegaMall.Application.Mapper
         {
             CreateMap<Brands, BrandsModel>().ReverseMap();
             CreateMap<List<Brands>, BrandsModel>().ReverseMap();
-            CreateMap<List<f_getproducts_By_NewArrivals>, f_getproducts_By_NewArrivalsModel>().ReverseMap();
-            CreateMap<f_getproducts_By_NewArrivals, f_getproducts_By_NewArrivalsModel>().ReverseMap();
-            CreateMap<IQueryable<f_getproducts_By_NewArrivals>, List<f_getproducts_By_NewArrivalsModel>>().ReverseMap();
+            CreateMap<List<SP_getproducts_By_NewArrivals>, SP_getproducts_By_NewArrivalsModel>().ReverseMap();
+            CreateMap<SP_getproducts_By_NewArrivals, SP_getproducts_By_NewArrivalsModel>().ReverseMap();
+            CreateMap<IQueryable<SP_getproducts_By_NewArrivals>, List<SP_getproducts_By_NewArrivalsModel>>().ReverseMap();
             CreateMap<f_getproducts_By_OrgID, f_getproducts_By_OrgIDModel>().ReverseMap();
             CreateMap<sp_getcat_Result, sp_getcat_ResultModel>().ReverseMap();
             CreateMap<f_getproducts_By_CategoryID, f_getproducts_By_CategoryIDModel>().ReverseMap();

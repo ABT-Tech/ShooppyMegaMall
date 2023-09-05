@@ -90,7 +90,6 @@
             var ProductVariant = await _ProductDetailRepsitory.GetProductVarient(orgid, id, username);
             productDetailModel.productVariantModel = ObjectMapper.Mapper.Map<List<ProductVariantModel>>(ProductVariant);
 
-
             var productSpecVal = await _ProductDetailRepsitory.specificationSetups(id);
             var spectype = ObjectMapper.Mapper.Map<List<f_getproduct_specification_By_GuidModel>>(productSpecVal);
             foreach (var prodAttr in productDetailModel.AttributesSetupModel)
@@ -98,8 +97,6 @@
                 prodAttr.GetF_Getproduct_Specification_By_GuidModel = spectype.ToList();
             }
             string ipAddress = _accessor.HttpContext.Connection.RemoteIpAddress.ToString();
-
-
 
             ProductRecentlyViewed productRecently = new ProductRecentlyViewed();
             productRecently.Ip = ipAddress;

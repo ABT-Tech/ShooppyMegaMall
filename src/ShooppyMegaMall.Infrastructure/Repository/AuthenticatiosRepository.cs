@@ -22,14 +22,14 @@ namespace ShooppyMegaMall.Infrastructure.Repository
         {
             _MasterContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
-        public async Task<Users> GetAuthenticato_Details(string email, string password,int orgid)
+        public async Task<Users> GetAuthenticato_Details(string email, string password)
         {
             string ps = this.EncryptPass.Encrypt(password);
             //var UserValidate =  _MasterContext.Users.Where(x => x.Email == email && x.Password == ps && x.OrgId == orgid).FirstOrDefault();
 
             var q = await (from user in _MasterContext.Users
                      join userprofile in _MasterContext.UsersProfile on user.Email equals userprofile.UserName 
-                     where user.Email == email && user.Password == ps && user.OrgId == orgid && userprofile.Type == "Client"
+                     where user.Email == email && user.Password == ps && userprofile.Type == "Client"
                      select user).FirstOrDefaultAsync();
 
 

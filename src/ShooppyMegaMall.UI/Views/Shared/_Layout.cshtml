@@ -115,10 +115,9 @@
                 <div class="container-fluid">
                     <div class="row headRow">
                         <div style="padding-bottom: 10px; margin-top: -25px;" class="col-lg-3 col-md-2 col-4 MobLogoDiv">
-                            @* <div class="logo res">
-                                    <a href="index.html"><img src="img/logo.png" alt=""></a>
-                                </div>*@
-                            @await Component.InvokeAsync("VendorLogo")
+                            <div class="logo res">
+                                <a href="/"><img src="~/img/Shooppy.in1.png" loading="lazy" style="max-height:100px;width:auto;" class="MobLogo" alt="Headerlogo"></a>
+                            </div>
                         </div>
                         <div class="col-lg-9 col-md-10 col-8 mobIconDiv">
                             <div class="meddil-services">
@@ -227,27 +226,6 @@
         @RenderBody()
         <!-- Start footer area -->
         <footer>
-            <!-- Start footer top area -->
-            <div class="footer-top-area">
-                <div class="container-fluid">
-                    <div class="footer-top">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4">
-                                <div class="footer-logo">
-                                    @await Component.InvokeAsync("VendorLogo")
-                                    @*<a href="index.html"><img src="img/footer-logo.png" alt="footer logo"></a>*@
-                                </div>
-                                <div class="footer-top-sociul">
-                                </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8">
-                                @await Component.InvokeAsync("AboutUs")
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End footer top area -->
             <!-- Start footer center area -->
             <div class="footer-center-area">
                 <div class="container-fluid">
@@ -293,19 +271,21 @@
                                             <li><a asp-controller="Home" asp-action="MerchantTermsAndCondition" name="link">Terms & Conditions</a></li>
                                             <li><a asp-controller="Home" asp-action="MerchantPrivacyPolicy" name="link">Privacy Policy</a></li>
                                             <li><a asp-controller="Home" asp-action="MerchantRefundPolicy" name="link">Return & Refund Policy</a></li>
+                                            <li><a asp-controller="Home" asp-action="ShippingPolicy" name="link">Shipping Policy</a></li>
+                                            <li><a href="https://shooppy.in/" name="Shooppy">About Us.</a></li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                         </div>
-            </div>
+                    </div>
                 </div>
             </div>
             <!-- End footer menu area -->
             <!-- Start footer copyright area -->
             <div class="footer-copyright-area">
                 <div class="container-fluid">
-                    <div class="footer-copyright">                
+                    <div class="footer-copyright">
                     </div>
                 </div>
                 <div class="scroll-to-top pull-right">

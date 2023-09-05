@@ -43,7 +43,7 @@ namespace ShooppyMegaMall.Application.Models
         public string category_name { get; set; }
         public string Banner { get; set; }
         public List<BrandsModel> BrandsModel { get; set; }
-        public List<f_getproducts_By_NewArrivalsModel> ProductNewArrivalModel { get; set; }
+        public List<SP_getproducts_By_NewArrivalsModel> ProductNewArrivalModel { get; set; }
         public List<f_getproducts_By_OrgIDModel> f_Getproducts_By_OrgIDModel { get; set; }
         public List<sp_getcat_ResultModel> GetSp_Getcat_ResultModel { get; set; }
         public List<f_getproducts_By_CategoryIDModel> F_Getproducts_By_CategoryIDModels { get; set; }
