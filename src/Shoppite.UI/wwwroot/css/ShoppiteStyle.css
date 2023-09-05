@@ -1,0 +1,68 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed:700);
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+
+ul.breadcrumblinks {
+    padding-left: 0px;
+    padding-top: 10px;
+    list-style: none;
+    background-color: none;
+}
+
+    /* Display list items side by side */
+    ul.breadcrumblinks li {
+        display: inline;
+        font-size: 18px;
+    }
+
+        /* Add a slash symbol (/) before/behind each list item */
+        ul.breadcrumblinks li + li:before {
+            padding: 8px;
+            color: black;
+            content: "/\00a0";
+        }
+
+        /* Add a color to all links inside the list */
+        ul.breadcrumblinks li a {
+            color: #0275d8;
+            text-decoration: none;
+        }
+
+            /* Add a color on mouse-over */
+            ul.breadcrumblinks li a:hover {
+                color: #01447e;
+                text-decoration: underline;
+            }
+
+.padding15 {
+    padding: 15px;
+}
+
+.deletemodalheader {
+    background: black;
+    color: white;
+    font-size: 22px;
+}
+.table-struct-data {
+    padding:0px 15px 15px 15px;
+}

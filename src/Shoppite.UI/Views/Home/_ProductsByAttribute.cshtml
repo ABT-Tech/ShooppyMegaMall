@@ -1,0 +1,53 @@
+﻿@model Shoppite.Application.Models.MainModel
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div id="grid" class="tab-pane active categoti-grid-view">
+    <div class="row">
+        @foreach (var product in Model.Product_specification)
+        {
+            <div class="col-6 col-md-4 col-lg-4 col-xl-3" style="margin-bottom: 25px;">
+                <div class="product-item" style="margin-top: 15px;">
+                    <div class="top-item">
+                        <a href="/ProductDetail/Details/@product.ProductGUID" name="prodetailspagelink">
+                            <img style="height:244px;width:250px" src="@product.image" loading="lazy" alt="@product.ProductName">
+                        </a>
+                    </div>
+                    <div class="bottom-item">
+                        <div class="product-info">
+                            <h5><a href="/ProductDetail/Details/@product.ProductGUID" class="product_name_Over" name="productnamelink">@product.ProductName</a></h5>
+                            <span>@product.Price <del>@product.OldPrice</del></span>
+                            <p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    $('#removewishlist').hide()
+    $('.addWish').click(function (e)
+    {
+        if ($(e.target).css('color') == 'rgb(255, 0, 0)')
+        {
+            $(e.target).css('color', 'white');
+        }
+        else
+        {
+            $(e.target).css('color', 'red');
+        }
+  e.preventDefault();
+  var el = $(this),
+    icon = el.find('i'),
+            productId = el.data("product")
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Wishlist", "Wishlist")',
+            data: {
+                "id": productId
+            },
+            success: function (data) {
+        }
+        });
+    });
+</script>

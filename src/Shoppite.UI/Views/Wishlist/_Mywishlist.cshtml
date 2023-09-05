@@ -1,0 +1,92 @@
+﻿@model Shoppite.Application.Models.MainModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<link href="~/css/overlay.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+    .Shop_Now {
+        /*background-color: #363636;*/
+        padding: 10px;
+        color: black;
+        font-weight:bold;
+        /*border-radius: 1px;*/
+    }
+        .Shop_Now:hover {
+            color: #fe5b5a;
+            /*color: white;*/
+            text-decoration: none;
+        }
+</style>
+<div class="row">
+    @if (Model.Wishlists.Count > 0)
+    {
+        @foreach (var wishlist in Model.Wishlists)
+        {
+            <div class="col-lg-3 col-md-4 col-6">
+                <div class="wishlist-box card rounded-3 shadow">
+                    <div class="">
+                        <a href="@Url.Action("Details", "ProductDetail",new { id = wishlist.ProductGuid } )" name="link">
+                           @if (wishlist.Image != null)
+                            {
+                                <img loading="lazy" style="height: 244px; width: 100%; object-fit: contain; " src="@wishlist.Image" alt="@wishlist.ProductName (@wishlist.SpecificationName)">
+                            }
+                            else
+                            {
+                                <img loading="lazy" style="height: 244px; width: 100%; object-fit: contain; " src="@wishlist.CoverImage" alt=" @wishlist.ProductName (@wishlist.SpecificationName)">
+                            }
+                        </a>
+                    </div>
+                    <div class="text-center font-weight-bolder">
+                        <a class="text-decoration-none product_name_Over text-dark" href="@Url.Action("Details", "ProductDetail",new { id = wishlist.ProductGuid } )" name="link">
+                            @wishlist.ProductName (@wishlist.SpecificationName)
+                        </a>
+                    </div>
+                    <div class="text-center font-weight-bolder mb-2">
+                        <span style="color: #fe5b5a;">₹@wishlist.Price</span> <del>₹@wishlist.OldPrice</del>
+                    </div>
+                    <hr class="whishlisthorizontalline" style=" " />
+                    <div class="text-center m-2 mb-3">
+                        <div class="content">
+                            <div class="content-overlay"></div>
+                            <a asp-action="Wishlist" class="removewish text-decoration-none text-danger font-weight-bolder whishlisttrasebtn" asp-controller="Wishlist" data-product="@wishlist.WishlistId" name="link">
+                                Remove From WishList
+                                <div class="content-details fadeIn-left">
+                                    <i style="font-size: 25px; color:black" class="fa fa-trash"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center">
+            <img src="/img/boxdog_dribbble.gif" alt="emptywishlistimg" loading="lazy" style="max-height: 300px; width: auto;" />
+            <h4 style="color: #fe5b5a; margin-top: -35px;">Your Wishlist is Empty! </h4>
+            <h6>seems like you don't have wishes here.</h6>
+            <div class="Shop_Now_Div">
+                <a class="Shop_Now" name="link" asp-action="Index" asp-controller="Home">Make a Wish!</a>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    $('.removewish').click(function (e)
+    {
+        e.preventDefault();
+        var el = $(this),
+            icon = el.find('i'),
+            productId = el.data("product")
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Wishlist", "Wishlist")',
+            data: {
+                "id": productId
+            },
+            success: function (data) {
+                window.location.reload();
+        }
+         });
+    });
+</script>

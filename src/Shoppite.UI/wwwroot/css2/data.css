@@ -1,0 +1,253 @@
+:root {
+	 --space: 1.25rem;
+}
+ html {
+	 font: 66.6666666667% system-ui, sans-serif;
+}
+ img {
+	 max-width: 100%;
+	 height: auto;
+}
+ summary {
+	 display: block;
+	 position: relative;
+}
+ summary::-webkit-details-marker {
+	 display: none;
+}
+ summary::after, [open] summary::after {
+	 content: "";
+	 display: inline-block;
+	 border: 12px solid transparent;
+	 border-right-width: 7px;
+	 border-left-width: 7px;
+	 border-bottom-color: black;
+	 position: absolute;
+	 top: 50%;
+	 right: 0;
+	 transform: rotate(180deg) translateY(25%);
+}
+ [open] summary::after {
+	 transform: rotate(0deg) translateY(-75%);
+}
+ .stack > * {
+	 margin-top: 0;
+	 margin-bottom: 0;
+}
+ .stack > * + * {
+	 margin-top: var(--space);
+}
+ .wrapper {
+	 max-width: 610px;
+	 margin-left: auto;
+	 margin-right: auto;
+}
+ .header {
+	 position: relative;
+}
+ .header__top {
+	 height: 40px;
+	 background-color: #ccc;
+}
+ .header__inner {
+	 height: 137px;
+	 display: flex;
+	 align-items: center;
+}
+ .header__bottom {
+	 height: 55px;
+	 background-color: #eee;
+}
+ .header::before {
+	 content: "";
+	 position: absolute;
+	 background: #333 9;
+	 height: 100%;
+	 width: 100%;
+	 top: 0;
+	 left: 0;
+}
+ .header::after {
+	 content: "Header FPO";
+	 position: absolute;
+	 top: 50%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 color: white;
+	 font-style: bold;
+	 text-transform: uppercase;
+	 letter-spacing: 0.1em;
+}
+ .container {
+	 max-width: 1400px;
+	 padding: 0 var(--space);
+	 margin-left: auto;
+	 margin-right: auto;
+}
+ .footer {
+	 height: 670px;
+	 display: flex;
+	 position: relative;
+}
+ .footer > * {
+	 margin: auto;
+}
+ .footer::before {
+	 content: "";
+	 position: absolute;
+	 background: #333 9;
+	 height: 100%;
+	 width: 100%;
+	 top: 0;
+	 left: 0;
+}
+ .footer::after {
+	 content: "Footer FPO";
+	 position: absolute;
+	 top: 50%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 color: white;
+	 font-style: bold;
+	 text-transform: uppercase;
+	 letter-spacing: 0.1em;
+}
+ .fpo-short-block {
+	 height: 200px;
+	 position: relative;
+}
+ .fpo-short-block::before {
+	 content: "";
+	 position: absolute;
+	 background: #333 9;
+	 height: 100%;
+	 width: 100%;
+	 top: 0;
+	 left: 0;
+}
+ .fpo-short-block::after {
+	 content: "Short block FPO";
+	 position: absolute;
+	 top: 50%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 color: white;
+	 font-style: bold;
+	 text-transform: uppercase;
+	 letter-spacing: 0.1em;
+}
+ .fpo-tall-block {
+	 height: 4000px;
+	 position: relative;
+}
+ .fpo-tall-block::before {
+	 content: "";
+	 position: absolute;
+	 background: #333 9;
+	 height: 100%;
+	 width: 100%;
+	 top: 0;
+	 left: 0;
+}
+ .fpo-tall-block::after {
+	 content: "Tall block FPO";
+	 position: absolute;
+	 top: 50%;
+	 left: 50%;
+	 transform: translate(-50%, -50%);
+	 color: white;
+	 font-style: bold;
+	 text-transform: uppercase;
+	 letter-spacing: 0.1em;
+}
+ .site__name {
+	 font-weight: 700;
+	 font-size: 1.5rem;
+	 color: white;
+	 background-color: black;
+	 padding: 0.25em 0.75em;
+	 border-radius: 1.5em;
+}
+ .site__search {
+	 font: inherit;
+	 padding: 0.5em 0.75em;
+	 border-radius: 1.5em;
+	 -moz-appearance: none;
+	 -webkit-appearance: none;
+	 appearance: none;
+	 border: 2px solid;
+	 width: 50%;
+	 margin-left: auto;
+}
+ .product__name {
+	 font-size: 1.75rem;
+	 font-weight: 700;
+}
+ .product__price {
+	 font-weight: 700;
+}
+ .product__price--large {
+	 font-size: 1.375rem;
+}
+ .product__share {
+	 text-align: right;
+}
+ .product__meta {
+	 padding-bottom: var(--space);
+	 border-bottom: solid 2px lightgray;
+}
+ .button {
+	 appearance: none;
+	 border: none;
+	 background: darkgray;
+	 padding: 0.5em 1em;
+	 display: block;
+	 width: 100%;
+	 border-radius: 4px;
+	 color: white;
+}
+ .button:hover {
+	 background: gray;
+}
+ .fulfillment {
+	 padding-top: var(--space);
+	 padding-bottom: var(--space);
+	 font-size: 0.875rem;
+}
+ .fulfillment:not(:last-child) {
+	 border-bottom: 1px solid lightgray;
+}
+ .fulfillment__type {
+	 font-size: 1rem;
+}
+ .fbt-items {
+	 display: flex;
+	 flex-direction: column;
+}
+ .fbt-item {
+	 display: flex;
+	 padding-top: var(--space);
+	 padding-bottom: var(--space);
+}
+ .fbt-item > * + * {
+	 margin-left: var(--space);
+}
+ .fbt-item input[type=checkbox] {
+	 margin-left: auto;
+}
+ .sticky-container {
+	 position: fixed;
+	 max-width: 610px;
+	 width: 100%;
+	 margin-left: auto;
+	 margin-right: auto;
+	 bottom: 0;
+	 transition: opacity 0.2s;
+	 padding: var(--space);
+	 background: white;
+}
+ .u-hidden {
+	 opacity: 0;
+	 pointer-events: none;
+}
+ 

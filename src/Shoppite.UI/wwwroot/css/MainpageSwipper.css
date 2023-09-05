@@ -1,0 +1,94 @@
+﻿.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+    .swiper-slide img {
+        display: block;
+        min-width: auto;
+        min-height: 250px;
+        max-height: 251px;
+        object-fit: contain;
+    }
+
+.swiper-button-next, .swiper-button-prev {
+    background: #fff !important;
+    border: 1px solid #cccccc !important;
+    border-radius: 0 !important;
+    color: #363636 !important;
+    cursor: pointer !important;
+    display: block;
+    font-size: 22px !important;
+    padding: 4px;
+    text-align: center;
+    transition: all 300ms ease 0s;
+    width: 40px;
+}
+
+    .swiper-button-prev:hover {
+        border-color: #fe5b5a !important;
+        color: #fe5b5a !important;
+    }
+
+    .swiper-button-next:hover {
+        border-color: #fe5b5a !important;
+        color: #fe5b5a !important;
+    }
+    /*    .swiper-button-next {
+        background-image: none;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        background-position: center;
+    }*/
+
+    .swiper-button-next::after {
+        display: none;
+    }
+
+    .swiper-button-prev::after {
+        display: none;
+    }
+
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive layout - makes a one column-layout instead of two-column layout */
+@media (max-width: 700px) {
+    .flex-container {
+        flex-direction: row;
+    }
+
+        .flex-container li {
+            margin: 2px;
+            border-radius:5px;
+        }
+        .flex-container li label{
+            padding:0px;
+            text-align:center;
+        }
+}
+.CatLI{
+    flex:20%;
+}

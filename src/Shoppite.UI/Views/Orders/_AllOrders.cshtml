@@ -1,0 +1,62 @@
+﻿@model Shoppite.Application.Models.MainModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<style>
+    /* [1] The container */
+    .img-hover-zoom {
+        /*height: 300px;*/ /* [1.1] Set it as per your need */
+        /*overflow: hidden;*/ /* [1.2] Hide the overflowing of child elements */
+    }
+        /* [2] Transition property for smooth transformation of images */
+        .img-hover-zoom img {
+            transition: transform .5s ease;
+        }
+        /* [3] Finally, transforming the image when container gets hovered */
+        .img-hover-zoom:hover img {
+            transform: scale(1.5);
+        }
+    .fa-angle-right {
+        color: #ec4445;
+    }
+        .fa-angle-right:hover {
+            color: #000;
+        }
+</style>
+<div class="row">
+    @if (Model.MyOrderDetails.Count > 0)
+    {
+        @foreach (var myorders in Model.MyOrderDetails)
+        {
+            <div class="col-lg-4 col-md-4 col-6">
+                <div style="width:fit-content;" class="wishlist-box card rounded shadow d-flex">
+                    <div class="d-inline-flex">
+                        <div class="img-hover-zoom">
+                           @* <a href="">
+                                <img class="wish-image" style="height: 100px; width: 100px; margin: 5px; object-fit: contain;" src="@myorders.CoverImage" alt="">
+                            </a>*@
+                        </div>
+                        <div style="margin:5px;">
+                           @* <h6 style="padding:5px 0px 0px 0px;" class="product_name_Over ">@myorders.ProductName</h6>*@
+                            <p> <b style="color: #fe5b5a;">Order Date:</b> @myorders.orderdate</p>
+                            <p> <b style="color: #fe5b5a;">OrderId:</b> @myorders.OrderMasterId</p>
+                        </div>
+                        <div style="width: 58px;text-align:center;">
+                            <abbr title="More Order Details">
+                                <a href="/Orders/OrderDetails?orderid=@myorders.OrderMasterId" name="link">
+                                    <h2>
+                                        <i class="fa fa-angle-right pt-4"></i>
+                                    </h2>
+                                </a>
+                            </abbr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+            <div class="text-center">
+                <img src="~/images/NoOrderPlace.gif" loading="lazy" alt="NoOrderPlace" style="max-height: 400px; width: 100%; margin-left: 25px;" />
+            </div>
+    }
+</div>

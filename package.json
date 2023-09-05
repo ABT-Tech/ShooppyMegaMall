@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@ckeditor/ckeditor5-list": "^37.0.1",
+    "lightpick": "^1.6.2"
+  }
+}

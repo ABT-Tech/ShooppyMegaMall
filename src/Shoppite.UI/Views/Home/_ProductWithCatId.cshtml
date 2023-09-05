@@ -1,0 +1,181 @@
+﻿@model Shoppite.Application.Models.MainModel
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+<link href="~/css/MainpageSwipper.css" rel="stylesheet" />
+<link href="~/css/site.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+    .swiper {
+        width: 100%;
+        height: 50%;
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 14px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+        .swiper-slide img {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+</style>
+<!-- Start tab and carosel area -->
+<div id="content" class="tabandcarosel-area">
+    <div class="container-fluid">
+        <div class="tab-product-wrap">
+            <div class="col-lg-4 col-md-4 resswiper justify-content-center" style="margin:0px 0px -20px 0px;height:100px;">
+                <div class="swiper mySwiper" style="margin:0px 0px 25px 0px ">
+                    <div class="swiper-wrapper">
+                        @foreach (var Cat in Model.GetSp_Getcat_ResultModel.Where(x=>x.IsPublished == true && x.IsShowHomePage == true).Take(5))
+                        {
+                            int X = (int)Cat.ID;
+                            <div class="swiper-slide"><a onclick="testajaxcall('@X')" data-toggle="tab" name="CatName" class="" style="letter-spacing:0.5px;font-weight:600;font-size:15px;">@Cat.NAME</a></div>
+                        }
+                    </div>
+                    <div class="swiper-button-next" style="font-weight:500;width:50px;" onclick="document.querySelector('.swiper-slide-next a').click();"><i class="fa-solid fa-chevron-right"></i></div>
+                    <div class="swiper-button-prev" style="font-weight:500;width:50px;" onclick="document.querySelector('.swiper-slide-prev a').click();"><i class="fa-solid fa-chevron-left"></i></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-2 Middle_Banner">
+                     @await Html.PartialAsync("_LeftBanner")
+                </div>
+                <!-- Start tab menu area -->
+                <div class="col-lg-3 col-md-3 resmenu">
+                    <div class="tab-menu-area toplist" id="myDIV">
+                        <ul id="tabs" class="nav nav-tabs tab_cates text-nowrap flex-container" data-tabs="tabs">
+                            <li class="shadow CatLI">
+                                @foreach (var Cat in Model.GetSp_Getcat_ResultModel.Where(x => x.IsPublished == true && x.IsShowHomePage == true).Take(5))
+                                 {
+                                    int X = (int)Cat.ID;
+                                    <a onclick="testajaxcall('@X')" data-toggle="tab" name="CatName" class="" style=" white-space:nowrap; ">
+                                        <label class="name font-weight-bold">@Cat.NAME</label>
+                                    </a>
+                                 }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End tab menu area -->
+                <!-- Start category product content area -->
+                <div class="col-lg-6 col-md-7">
+                    <div class="new-product-area">
+                        <div class="container-fluid">
+                           @* @await Html.PartialAsync("_HorizontalBanner", Model)*@
+                            <div class="pt-3 overflow-hidden">
+                                <div class="swiper mySwiper">
+                                    <div class="swiper-wrapper d-flex d-flex-inline ml-2" id="prodtabdata">
+                                        <!--Here dynamically add product as per category via ajax in script-->
+                                    </div>
+                                    <div class="swiper-button-next"> <i class="fa fa-angle-right"></i> </div>
+                                    <div class="swiper-button-prev"> <i class="fa fa-angle-left"></i> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 20,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true
+        },
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 20
+            },
+            576: {
+                slidesPerView: 2,
+                spaceBetween: 20
+          },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 20
+          },
+            992: {
+                slidesPerView: 3,
+                spaceBetween: 20
+            }
+        }
+    });
+    function testajaxcall(id)
+    {
+        var prod_Div = '';
+        var ProdAry = [];
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Get_Product_By_Cat", "Home")',
+                dataType: 'JSON',
+                data: { "ID": id },
+                contentType: "application/json",
+                success: function(result)
+                {
+                    for (var i = 0; i < result.length; i++) {
+                        prod_Div = '<div class="swiper-slide">';
+                        prod_Div += '<div class="product-item" >';
+                        prod_Div += '<div class="top-item"> <div class="img-hover-zoom">';
+                        prod_Div += '<a href="/ProductDetail/Details/' + result[i].productGUID + '" class="product_Images" > ';
+                        prod_Div += '<img src="' + result[i].image + '" alt="' + result[i].productName + '" class="lazy" loading="lazy" />';
+                        prod_Div += '</a> </div>';
+                        prod_Div += '</div>';
+                        prod_Div += '<div class="bottom-item">';
+                        prod_Div += '<div class="product-info">';
+                        prod_Div += '<h5><a href="/ProductDetail/Details/' + result[i].productGUID + '" class="product_name_Over" style="width:160px;" id="ProductName">' + result[i].productName + '</a></h5>';
+                        if (result[i].oldPrice != null) {
+                            prod_Div += '<span>' + '₹' + result[i].price + '&nbsp;&nbsp;<del id="Old_Price">₹' + result[i].oldPrice + '</del></span>';
+                        } else {
+                            prod_Div += '<span>' + '₹' + result[i].price +'</span>';
+                        }
+                        prod_Div += '<p>';
+                        prod_Div += '</p>';
+                        prod_Div += '</div>';
+                        prod_Div += '</div>';
+                        prod_Div += '</div>';
+                        prod_Div += '</div>';
+                        var resetdiv = prod_Div;
+                        ProdAry.push(resetdiv);
+                    }
+                    $("#prodtabdata").html(ProdAry.join(''));
+
+                    if (ProdAry.length == 0) {
+                        $("#prodtabdata").html('<img class="" style="margin-top: 3.6pc;" src="/img/no-product-found.jpg" alt="NoProductFound" loading="lazy" />');
+                    }
+                },
+                error: function (xhr, status, error)
+                {
+                    alert(xhr.responseText);
+                }
+            })
+    };
+    window.onload = function () {
+        document.getElementsByName("CatName")[0].click();
+    };
+    var links = document.querySelectorAll('.toplist ul li a');
+    links.forEach(function (element) {
+        element.addEventListener('click', function (e) {
+            e.preventDefault();
+            links.forEach(function (element) {
+                element.classList.remove('active');
+            });
+            this.classList.add('active');
+        });
+    });
+</script>

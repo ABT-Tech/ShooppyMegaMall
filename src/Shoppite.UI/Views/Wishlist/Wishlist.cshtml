@@ -1,0 +1,15 @@
+﻿@model Shoppite.Application.Models.MainModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<div class="main-area">
+</div>
+<div class="wishlists-page-area">
+    <div class="container-fluid">
+        <div class="row">
+            <h4 class="cart-title">My wishlists</h4>
+            <div class="wishlist-product">
+                @await Html.PartialAsync("_Mywishlist", Model)
+            </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("~/Views/Home/_BrandZone.cshtml", Model)
+</div>

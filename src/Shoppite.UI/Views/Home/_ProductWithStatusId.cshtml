@@ -1,0 +1,65 @@
+﻿@model Shoppite.Application.Models.MainModel
+<!-- Start new product area -->
+<link href="~/css/site.css" rel="stylesheet" />
+<div class="new-product-area">
+    <div class="container-fluid">
+        @foreach (var product in Model.ProductNewArrivalModel.GroupBy(x => x.StatusId))
+        {
+            foreach (var groupq in product.Take(1).Where(x=>x.ShowOnFront == true))
+            {
+                <!-- Start product title -->
+                <div class="new-product-title">
+                    <h4><span>@groupq.deals </span></h4>
+                </div>
+                <div class="new-products">
+                    <div class="producttabcarosel carosel-product5 owl-carousel">
+                        @foreach (var group in product)
+                         {
+                            <div class="product-item">
+                                <div class="top-item">
+                                    <a href="@Url.Action("Details", "ProductDetail",new { id = group.ProductGUID } )" name="productslink">
+                                        <img src="@group.image"  alt="@group.ProductName" style="height: 244px;" loading="lazy" class="lazy"/>
+                                    </a>
+                                </div>
+                                <div class="bottom-item">
+                                    <div class="product-info">
+                                        <h5><a href="@Url.Action("Details", "ProductDetail",new { id = group.ProductGUID } )" name="productlink" class="product_name_Over">@group.ProductName</a></h5>
+                                        <span>
+                                            ₹@group.Price &nbsp;&nbsp;
+                                            @if (group.OldPrice != null)
+                                            {
+                                                <del>₹@group.OldPrice</del>
+                                            }
+                                        </span>
+                                        <p>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                         }
+                    </div>
+                </div>
+                <!-- End new product -->
+            }
+        }
+    </div>
+</div>
+<script>
+    function GetProductDetails(id) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Details","ProductDetail")',
+            dataType: 'JSON',
+            data: { "id": id },
+            contentType: "application/json",
+            success: function (result) {
+                window.location.href = 'Details';
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+                console.log(xhr);
+                console.log(error);
+            }
+        });
+    }
+</script>

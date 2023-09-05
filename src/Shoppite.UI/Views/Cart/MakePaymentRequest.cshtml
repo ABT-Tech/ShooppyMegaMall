@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+    <form method="post" id="paymentForm" action="@ViewBag.AggregatorRedirectionLink">
+        <input name="merchantId" id="merchantId" type="hidden" value="@ViewBag.merchantId">
+        <input name="reqData" id="reqData"  type="hidden"
+               value="@ViewBag.reqData">
+    </form>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('paymentForm').submit();
+        });
+    </script>
+</body>
+</html>

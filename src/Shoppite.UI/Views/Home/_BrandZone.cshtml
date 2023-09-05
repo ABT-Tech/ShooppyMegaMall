@@ -1,0 +1,57 @@
+﻿@model Shoppite.Application.Models.MainModel
+<!-- Start brand logo area -->
+<div class="brand-logo-area mt-auto">
+    <div class="container-fluid">
+        <div class="new-product-title">
+            <h4><span>Brand Zone </span></h4>
+        </div>
+        <div class="brand-logo">
+            <div class="producttabcarosel pos-logo-slide owl-carousel logo-carousel">
+                @if (Model.BrandsModel != null)
+                {
+                    @foreach (var BLogo in Model.BrandsModel.Where(x=>x.IsPublished == true))
+                    {
+                        if (BLogo.BrandImage != "")
+                        {
+                            <div class="carosel-lo">
+                                <a asp-controller="Home" asp-action="ProductsByBrand" asp-route-BrandId="@BLogo.BrandId" name="brandlink"><img id="Brand_Logo_Img" src="@Url.Content("~")@BLogo.BrandImage" loading="lazy" alt="@BLogo.BrandName" style="max-height: 68px; max-width: 130px;" class="lazy"></a>
+                            </div>
+                        }
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End brand logo area -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function () {
+        var owl = $('.logo-carousel');
+        owl.owlCarousel({
+            items: 4,
+            loop: true,
+            margin: 10,
+            autoplay: true,
+            slideTransition: 'linear',
+            autoplayTimeout: 2000,
+            autoplaySpeed: 2000,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 2
+                },
+                576: {
+                    items: 2
+                },
+                768: {
+                    items: 3
+                },
+                992: {
+                    items: 4
+                }
+            }
+        });
+    })
+</script>
