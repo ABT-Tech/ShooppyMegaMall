@@ -119,13 +119,13 @@ namespace ShooppyMegaMall.Application.Services
             List<AttributeSetupModel> attribute = new List<AttributeSetupModel>();
             var attributes = await _categoryRepository.GetAllAttributes(orgID);
             var specifications = attributes.GroupBy(x => new { x.AttributeName,x.AttributeId}, (key, g) => new { specName=key.AttributeName,specId=key.AttributeId, specific = g.ToList() });
-            foreach (var sp in specifications)
+            foreach (var sp in specifications.Take(5))
             {
                 AttributeSetupModel specification = new AttributeSetupModel();
                 specification.AttributeId = sp.specId;
                 specification.AttributeName = sp.specName;
                 specification.specifications = specification.specifications == null ? new List<SpecificationSetupModel>() : specification.specifications;
-                foreach (var prod in sp.specific)
+                foreach (var prod in sp.specific.Take(5))
                 {
                     SpecificationSetupModel attributespec = new SpecificationSetupModel();
                     attributespec.SpecificationId = prod.SpecificationId;

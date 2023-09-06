@@ -114,7 +114,7 @@ namespace ShooppyMegaMall.UI.Controllers
             mainModel.guid = id;
 
             await _productWishListService.AddtowhishList(mainModel);
-            return RedirectToAction("Details",new {id=id});
+            return RedirectToAction("Details",new {id = id});
         } 
 
         [HttpGet]

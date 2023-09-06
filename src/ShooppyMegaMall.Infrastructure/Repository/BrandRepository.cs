@@ -107,7 +107,7 @@ namespace ShooppyMegaMall.Infrastructure.Repository
 
         public async Task<List<F_getproducts_By_BrandId>> GetProductsByBrand(int orgid,int BrandId)
         {
-            string sql = "select * from f_getproducts_By_BrandID(@ID,@OrgId)";
+            string sql = " EXEC SP_getproducts_By_BrandID @ID,@OrgId";
 
             List<SqlParameter> parms = new List<SqlParameter>
              { 
@@ -176,7 +176,7 @@ namespace ShooppyMegaMall.Infrastructure.Repository
 
         public async Task<UsersProfile> GetShippingDetail(string userName,int orgid)
         {
-            return await _dbContext.UsersProfile.Where(x => x.UserName == userName && x.Type == "Client" && x.OrgId==orgid).FirstOrDefaultAsync();
+            return await _dbContext.UsersProfile.Where(x => x.UserName == userName && x.Type == "Client").FirstOrDefaultAsync();
         }
 
         public async Task<List<ProductBasic>> GetProductDetail(string productName, string coverImage)
@@ -237,12 +237,12 @@ namespace ShooppyMegaMall.Infrastructure.Repository
 
         public async Task<Users> GetUser(string email,int orgid)
         {
-            return await _dbContext.Users.Where(x => x.Email == email && x.OrgId == orgid ).FirstOrDefaultAsync();
+            return await _dbContext.Users.Where(x => x.Email == email).FirstOrDefaultAsync();
         }
 
         public async Task<OrderStatus> GetOrderStatus(int orderid,int orgid)
         {
-            return await _dbContext.OrderStatus.Where(x => x.OrderId == orderid && x.OrgId == orgid).FirstOrDefaultAsync();
+            return await _dbContext.OrderStatus.Where(x => x.OrderId == orderid).FirstOrDefaultAsync();
         }
 
         public async Task<Organization> GetOrg(int? orgId)
