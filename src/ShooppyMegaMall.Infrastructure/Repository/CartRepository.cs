@@ -19,14 +19,14 @@ namespace ShooppyMegaMall.Infrastructure.Repository
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
-        public async Task<List<f_getproduct_CartDetails_By_Orgid>> OrderBasic(int orgid)
+        public async Task<List<f_getproduct_CartDetails_By_Orgid>> OrderBasic(string UserName)
         {
-            string sql = "select * from f_getproduct_CartDetails_By_Orgid(@Orgid)";
+            string sql = "EXEC SP_getproduct_CartDetails_By_UserName @UserName";
 
             List<SqlParameter> parms = new List<SqlParameter>
             { 
                 // Create parameters    
-                new SqlParameter { ParameterName = "@Orgid", Value = orgid }
+                new SqlParameter { ParameterName = "@UserName", Value = UserName }
             };
             return await _dbContext.Set<f_getproduct_CartDetails_By_Orgid>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
         }
