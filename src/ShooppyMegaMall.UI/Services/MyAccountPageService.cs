@@ -17,7 +17,7 @@ namespace ShooppyMegaMall.UI.Services
             _myAccountService = myAccountService ?? throw new ArgumentNullException(nameof(myAccountService));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
-        public async Task<f_Get_MyAccount_Data_Model> GetMyAccountDetail(int orgId,int profileid)
+        public async Task<List<f_Get_MyAccount_Data_Model>> GetMyAccountDetail(int orgId,int profileid)
         {
             var myaccount = await _myAccountService.GetMyAccountDetail(orgId, profileid);
             return myaccount;

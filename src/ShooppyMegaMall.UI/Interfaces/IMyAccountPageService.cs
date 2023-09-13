@@ -8,7 +8,7 @@ namespace ShooppyMegaMall.Web.Interfaces
 {
     public interface IMyAccountPageService
     {
-        Task<f_Get_MyAccount_Data_Model> GetMyAccountDetail(int OrgId, int ProfileId);
+        Task<List<f_Get_MyAccount_Data_Model>> GetMyAccountDetail(int OrgId, int ProfileId);
         Task UpdateMyAccountDetail(MainModel myaccount);
         Task<MainModel> GetProfileByProfileId(int ProfileId);
         Task ChangePassword(MainModel model);

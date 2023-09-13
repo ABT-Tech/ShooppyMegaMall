@@ -66,10 +66,11 @@ namespace ShooppyMegaMall.Infrastructure.Repository
         }
         public async Task<List<F_getproducts_By_CatId>> GetAllProductByCategory(int CategoryId,int Orgid)
         {
-            string sql = "select * from f_getproducts_By_CatID(@ID)";
+            string sql = "select * from f_getproducts_By_CatID(@ID,@OrgId)";
             List<SqlParameter> parms = new List<SqlParameter>
             {
-                new SqlParameter { ParameterName = "@ID", Value = CategoryId }
+                new SqlParameter { ParameterName = "@ID", Value = CategoryId },
+                new SqlParameter { ParameterName = "@OrgId", Value = Orgid }
             };
             return await _dbContext.Set<F_getproducts_By_CatId>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
         }

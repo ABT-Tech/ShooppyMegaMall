@@ -24,10 +24,10 @@ namespace ShooppyMegaMall.Application.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _accessor = accessor;
         }
-        public async Task<f_Get_MyAccount_Data_Model> GetMyAccountDetail(int orgId,int profileid)
+        public async Task<List<f_Get_MyAccount_Data_Model>> GetMyAccountDetail(int orgId,int profileid)
         {
             var myAccount_Data = await _myAccountRepository.GetMyAccountDetail(orgId,profileid);
-            var mapped = ObjectMapper.Mapper.Map<f_Get_MyAccount_Data_Model>(myAccount_Data);
+            var mapped = ObjectMapper.Mapper.Map<List<f_Get_MyAccount_Data_Model>>(myAccount_Data);
             return mapped;
         }
         public async Task UpdateMyAccountDetail(MainModel myaccount)
