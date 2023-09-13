@@ -16,5 +16,7 @@ namespace ShooppyMegaMall.Application.Models
         public UsersProfileModal UsersProfileModal { get; set; }
         public bool IsPaytm { get; set; }
         public bool IsPaytmClicked { get; set; }
+        public decimal? OrderPrice { get; set; }
+        public int? Order_Id { get; set; }
     }
 }

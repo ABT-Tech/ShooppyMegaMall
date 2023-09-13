@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Newtonsoft.Json;
+    using Razorpay.Api;
     using ShooppyMegaMall.Application.Models;
     using ShooppyMegaMall.UI.Extensions;
     using ShooppyMegaMall.UI.Helpers;
@@ -104,6 +105,8 @@
         {
             try
             {
+                decimal totalOrderPrice = 0;
+                int Order_Id = 0;
                 var order = await _cartPageService.CheckOrder(orderid);
                 var merchantDetails = _commonHelper.GetMerchantDetails(HttpContext);
                 order.IsPaytm = false;
@@ -111,11 +114,18 @@
                 {
                     order.IsPaytm = true;
                 }
+                foreach(var total in order.OrderBasicModels)
+                {
+                     totalOrderPrice += (decimal)total.Price;
+                     Order_Id = (int)total.OrderId;
+                }
+
+                ViewBag.OrderPrice = totalOrderPrice;
+                ViewBag.Order_Id = Order_Id;
                 return View(order);
             }
             catch (Exception e)
             {
-
                 throw e;
             }
             
@@ -271,6 +281,36 @@
 
             return encryptedText;
         }
-        
+
+        public async Task<Order> razorPayMakeOrder(CartModel cartModel)
+        {
+            var KeyId = _configuration.GetSection("RazorPaySettings")["key_id"].ToString();
+            var KeySecret = _configuration.GetSection("RazorPaySettings")["key_secret"].ToString();
+
+            RazorpayClient client = new RazorpayClient(KeyId, KeySecret);
+
+            Dictionary<string, object> options = new Dictionary<string, object>();
+            options.Add("amount", cartModel.OrderPrice); // amount in the smallest currency unit
+            options.Add("receipt", "order_receipt_" + cartModel.Order_Id);
+            options.Add("currency", "INR");
+            Order order = client.Order.Create(options);
+            return order;
+        }
+
+        public async Task<IActionResult> razorPaymentGetway(CartModel cartModel)
+        {
+            try
+            {
+                var getOrderId = await razorPayMakeOrder(cartModel);
+
+                string Order_Id = getOrderId.Attributes["id"].Value;
+                ViewBag.OrderId = Order_Id;
+                return View(getOrderId);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }         
+        }       
     }
 }
