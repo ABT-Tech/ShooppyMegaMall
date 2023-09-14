@@ -20,15 +20,22 @@ namespace ShooppyMegaMall.Infrastructure.Repository
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
-        public async Task<f_Get_MyAccount_Data> GetMyAccountDetail(int orgId,int profileid)
+        public async Task<List<f_Get_MyAccount_Data>> GetMyAccountDetail(int orgId,int profileid)
         {
-            string sql = "select * from f_Get_MyAccount_Data(@orgid,@profileid)";
-            List<SqlParameter> parms = new List<SqlParameter>
+            try
             {
-                new SqlParameter { ParameterName = "@orgid", Value = orgId },
+                string sql = "EXEC SP_Get_MyAccount_Data @orgid,@profileid";
+                List<SqlParameter> parms = new List<SqlParameter>
+            {
+                 new SqlParameter { ParameterName = "@orgid", Value = orgId },
                  new SqlParameter { ParameterName = "@profileid", Value = profileid }
             };
-            return await _dbContext.Set<f_Get_MyAccount_Data>().FromSqlRaw(sql, parms.ToArray()).FirstOrDefaultAsync();
+                return await _dbContext.Set<f_Get_MyAccount_Data>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
+            }
+            catch (Exception E)
+            {
+                throw E;
+            }
         }
         public async Task UpdateMyAccountDetail(UsersProfile myaccount)
         {
@@ -73,8 +80,8 @@ namespace ShooppyMegaMall.Infrastructure.Repository
 
         public async Task<int> GetProfileId(string username, int orgid)
         {
-            var findUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == username && x.OrgId == orgid);
-            var ProfileFind = await _dbContext.UsersProfile.FirstOrDefaultAsync(x => x.UserName == findUser.Email && x.OrgId == orgid);
+            var findUser = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == username);
+            var ProfileFind = await _dbContext.UsersProfile.FirstOrDefaultAsync(x => x.UserName == findUser.Email);
             return ProfileFind.ProfileId;
         }
     }

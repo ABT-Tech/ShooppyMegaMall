@@ -33,7 +33,7 @@ namespace ShooppyMegaMall.Application.Services
                 string userName = _accessor.HttpContext.User.Identity.Name.ToString();
 
                 CartModel orderbasic = new CartModel();
-                var Orderbasic = await _CartRepository.OrderBasic(orgid);
+                var Orderbasic = await _CartRepository.OrderBasic(userName);
                 orderbasic.F_Getproduct_CartDetails_By_Orgids = ObjectMapper.Mapper.Map<List<f_getproduct_CartDetails_By_OrgidModel>>(Orderbasic).Where(x => x.UserName == userName).ToList();
                 //var filter = orderbasic.F_Getproduct_CartDetails_By_Orgids.Where(x => x.UserName == userName).ToList();
                 return orderbasic;

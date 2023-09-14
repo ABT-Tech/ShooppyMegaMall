@@ -102,7 +102,7 @@
                 <div class="checkout-content">
                     <div class="row">
                         <div class="col-lg-9 col-md-12 mb-5">
-                            <form asp-action="MakePaymentRequest" asp-controller="Cart" enctype="multipart/form-data" method="post" class=" pt-2 text-capitalize">
+                            <form enctype="multipart/form-data" method="post" class=" pt-2 text-capitalize">
                                 <input type="hidden" asp-for="OrderBasicModel.OrderGuid" />
                                 <div aria-multiselectable="true" role="tablist" id="accordion" class="panel-group">
                                     <div class="panel sauget-accordion">
@@ -203,6 +203,8 @@
                                                     <input type="hidden" asp-for="OrderShippingModel.Email" />
                                                     <input type="hidden" asp-for="IsPaytm" />
                                                     <input type="hidden" asp-for="IsPaytmClicked" />
+                                                    <input type="hidden" asp-for="OrderPrice" value="@ViewBag.OrderPrice" />
+                                                    <input type="hidden" asp-for="Order_Id" value="@ViewBag.Order_Id" />
                                                     <div class="col-12">
                                                         <div class="form-group">
                                                             <button type="button" style="width:auto;" id="Proceed_to_Next" class="SaveBtn" onclick="document.getElementById('Target').click()" name="proceedtonextbtn">Proceed to Next</button>
@@ -227,7 +229,8 @@
                                                     {
                                                     <button style="width:auto;margin:15px;height:100%;" id="paytm-btn-click" class="SavePaymentBtn" name="paymentbtn"><img src="~/images/Payment.gif" loading="lazy" style="height:50px" alt="paymentbuttonpng" border="0" /></button>
                                                     }
-                                                    <button style="width: auto; margin: 15px; height: 100%;" type="submit" class="SavePaymentBtn" name="codbtn"><img src="~/images/cash-on-delivery-icon-14.jpg" loading="lazy" style="height:50px" alt="paymentbuttonpng" border="0" /></button>
+                                                    <button style="width: auto; margin: 15px; height: 100%;" asp-action="MakePaymentRequest" asp-controller="Cart" type="submit" class="SavePaymentBtn" name="codbtn"><img src="~/images/cash-on-delivery-icon-14.jpg" loading="lazy" style="height:50px" alt="paymentbuttonpng" border="0" /></button>
+                                                    <button style="width: auto; margin: 15px; height: 100%;" asp-action="razorPaymentGetway" asp-controller="Cart" type="submit" class="SavePaymentBtn" name="rzpbtn"><img src="~/images/razorpay.png" loading="lazy" style="height:50px" alt="rayzorbuttonpng" border="0" /></button>
                                                 </div>
                                             </div>
                                         </div>

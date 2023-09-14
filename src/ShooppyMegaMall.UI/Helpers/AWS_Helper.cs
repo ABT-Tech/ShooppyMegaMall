@@ -1,27 +1,53 @@
-﻿using Amazon;
-using Amazon.S3;
-using Amazon.S3.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Mime;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShooppyMegaMall.UI.Helpers
+﻿namespace ShooppyMegaMall.UI.Helpers
 {
+    using Amazon;
+    using Amazon.S3;
+    using Amazon.S3.Model;
+    using ImageProcessor;
+    using ImageProcessor.Imaging;
+    using ImageProcessor.Plugins.WebP.Imaging.Formats;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
+    using System;
+    using System.Buffers.Text;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Drawing;
+    using System.IO;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Net.Mime;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Web;
+
+    /// <summary>
+    /// Defines the <see cref="AWS_Helper" />.
+    /// </summary>
     public class AWS_Helper
     {
+        /// <summary>
+        /// Defines the _config.
+        /// </summary>
         private readonly IConfiguration _config;
-        public AWS_Helper(IConfiguration config)
+
+        /// <summary>
+        /// Defines the hostingEnvironment.
+        /// </summary>
+        private readonly IHostingEnvironment hostingEnvironment;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AWS_Helper"/> class.
+        /// </summary>
+        /// <param name="config">The config<see cref="IConfiguration"/>.</param>
+        /// <param name="environment">The environment<see cref="IHostingEnvironment"/>.</param>
+        public AWS_Helper(IConfiguration config, IHostingEnvironment environment)
         {
             _config = config;
+            hostingEnvironment = environment;
         }
+
         /* public async Task<string> uploadfile(IFormFile FileUpload1, string uploadFileName = "")
          {
              string returnfilename = "";
@@ -62,10 +88,17 @@ namespace ShooppyMegaMall.UI.Helpers
          }
 
  */
+        /// <summary>
+        /// The uploadfile.
+        /// </summary>
+        /// <param name="productModel">The productModel<see cref="IFormFile"/>.</param>
+        /// <param name="uploadFileName">The uploadFileName<see cref="string"/>.</param>
+        /// <returns>The <see cref="Task{string}"/>.</returns>
         public async Task<string> uploadfile(IFormFile productModel, string uploadFileName = "")
         {
             try
             {
+
                 if (string.IsNullOrEmpty(uploadFileName))
                 {
                     uploadFileName = "Markets\\Common\\files\\";
@@ -78,12 +111,18 @@ namespace ShooppyMegaMall.UI.Helpers
                     {
                         MultipartFormDataContent multipartContent = new MultipartFormDataContent();
                         var imageContent = new StreamContent(outputStream);
+                        var ServerImageName =
                         imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse(MediaTypeNames.Image.Jpeg);
-                        multipartContent.Add(imageContent, "CloudImage", productModel.FileName);
+                        var fileName = "File_" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(productModel.FileName);
+                        multipartContent.Add(imageContent, "CloudImage", fileName);
                         multipartContent.Add(new StringContent(uploadFileName, Encoding.UTF8, MediaTypeNames.Text.Plain), "CloudPath");
-                        HttpClient _httpClient = new HttpClient();
-                        using var response = await _httpClient.PostAsync("http://atmart.ShooppyMegaMall.in/FileServer/api/FileServer", multipartContent);
-                        returnfilename = "http://atmart.ShooppyMegaMall.in/images/" + uploadFileName.Replace("\\", @"/") + productModel.FileName;
+                        HttpClientHandler clientHandler = new HttpClientHandler();
+                        clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+                        // Pass the handler to httpclient(from you are calling api)
+                        HttpClient _httpClient = new HttpClient(clientHandler);
+                        using var response = await _httpClient.PostAsync("https://markets.shooppy.in/FileServer/api/FileServer", multipartContent);
+                        returnfilename = "https://markets.shooppy.in/images/" + uploadFileName.Replace("\\", @"/") + fileName;
                     }
                 }
                 return returnfilename;
@@ -92,8 +131,58 @@ namespace ShooppyMegaMall.UI.Helpers
             {
                 throw ex;
             }
-
         }
+
+        /// <summary>
+        /// The imageProccessor.
+        /// </summary>
+        /// <param name="ImageFile">The ImageFile<see cref="IFormFile"/>.</param>
+        /// <returns>The <see cref="Task{IFormFile}"/>.</returns>
+        public async Task<IFormFile> imageProccessor(IFormFile ImageFile)
+        {
+            try
+            {
+                string imagesPath = Path.Combine(hostingEnvironment.WebRootPath, "Images");
+                string webPFileName = Path.GetFileNameWithoutExtension(ImageFile.FileName) + ".webp";
+                string WebpImagePath = Path.Combine(imagesPath, webPFileName);
+
+                if (!Directory.Exists(imagesPath))
+                {
+                    Directory.CreateDirectory(imagesPath);
+                }
+                var ms = new MemoryStream();
+
+                using (var webpImageStream = new FileStream(WebpImagePath, FileMode.Create))
+                {
+                    using (ImageFactory imageFactory = new ImageFactory(preserveExifData: true))
+                    {
+                        imageFactory.Load(ImageFile.OpenReadStream())
+                           .Format(new WebPFormat())
+                           .Quality(90)
+                           .Brightness(5)
+                           .GaussianSharpen(5)
+                           .Saturation(5)
+                       .Save(webpImageStream);
+                    }
+
+                    webpImageStream.CopyTo(ms);
+
+                }
+                System.IO.File.Delete(WebpImagePath);
+                return new FormFile(ms, 0, ms.Length, "name", webPFileName);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// The uploadfilemulti.
+        /// </summary>
+        /// <param name="postedfile">The postedfile<see cref="IFormFile"/>.</param>
+        /// <param name="uploadfilename">The uploadfilename<see cref="string"/>.</param>
+        /// <returns>The <see cref="Task{string}"/>.</returns>
         public async Task<string> uploadfilemulti(IFormFile postedfile, string uploadfilename = "")
         {
             try
@@ -132,9 +221,13 @@ namespace ShooppyMegaMall.UI.Helpers
 
                 throw ex;
             }
-
         }
 
+        /// <summary>
+        /// The GetContentType.
+        /// </summary>
+        /// <param name="fileExtension">The fileExtension<see cref="string"/>.</param>
+        /// <returns>The <see cref="string"/>.</returns>
         public string GetContentType(string fileExtension)
         {
             string contentType = string.Empty;
@@ -158,8 +251,18 @@ namespace ShooppyMegaMall.UI.Helpers
             return contentType;
         }
 
+        /// <summary>
+        /// Defines the path.
+        /// </summary>
         private string path = "";
 
+        /// <summary>
+        /// The checkfilesize.
+        /// </summary>
+        /// <param name="FileUpload1">The FileUpload1<see cref="IFormFile"/>.</param>
+        /// <param name="imgheight">The imgheight<see cref="int"/>.</param>
+        /// <param name="imgwidth">The imgwidth<see cref="int"/>.</param>
+        /// <returns>The <see cref="string"/>.</returns>
         public string checkfilesize(IFormFile FileUpload1, int imgheight, int imgwidth)
         {
 
@@ -184,4 +287,3 @@ namespace ShooppyMegaMall.UI.Helpers
         }
     }
 }
-

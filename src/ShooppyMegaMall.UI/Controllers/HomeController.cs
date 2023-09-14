@@ -35,10 +35,6 @@ namespace ShooppyMegaMall.UI.Controllers
         public async Task<IActionResult>Index(int CategoryId)
         {
             int OrgId  = _commonHelper.GetOrgID(HttpContext);
-            if (OrgId == 0)
-            {
-                return RedirectToAction("PageNotFound");
-            }
             var brands = await _BrandPageService.GetBrands(OrgId);
             brands.CategoryMaster =  await _categoryPageService.DisplayLogo(OrgId);
             brands.MiddelBanner = await _categoryPageService.GetMiddelBannerImage(OrgId);
@@ -67,15 +63,15 @@ namespace ShooppyMegaMall.UI.Controllers
             brands.ProductdByBrand = await _BrandPageService.GetProductsByBrand(OrgId, BrandId);
             return View(brands);
         }
-        public async Task<IActionResult> PageNotFound()
-        {
-            int OrgId = _commonHelper.GetOrgID(HttpContext);
-            if (OrgId == 0)
-            {
-                return View();
-            }
-            return RedirectToAction("Index");
-        }
+        //public async Task<IActionResult> PageNotFound()
+        //{
+        //    int OrgId = _commonHelper.GetOrgID(HttpContext);
+        //    if (OrgId == 0)
+        //    {
+        //        return View();
+        //    }
+        //    return RedirectToAction("Index");
+        //}
 
         [HttpGet]
         public async Task<JsonResult> Get_Product_By_Cat(int ID)
@@ -159,7 +155,6 @@ namespace ShooppyMegaMall.UI.Controllers
         {
             return View();
         }
-
         public ActionResult ShippingPolicy()
         {
             return View();

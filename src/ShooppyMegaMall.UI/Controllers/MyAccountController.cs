@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ using ShooppyMegaMall.UI.Interfaces;
 using ShooppyMegaMall.Web.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +26,9 @@ namespace ShooppyMegaMall.UI.Controllers
         private readonly IMyAccountPageService _myAccountPageService;
         private readonly ILogger<MyAccountController> _logger;
         private readonly ICommonHelper _commonHelper;
-        public MyAccountController(IConfiguration config,IBrandPageServices brandPageServices, IMyAccountPageService myAccountPageServices, ICategoryPageService categoryPageService, ILogger<MyAccountController> logger, IWishlistPageService productPageService, IHttpContextAccessor accessor, ICommonHelper commonHelper)
+        private readonly IHostingEnvironment hostingEnvironment;
+
+        public MyAccountController(IConfiguration config, IHostingEnvironment hostingEnvironment, IBrandPageServices brandPageServices, IMyAccountPageService myAccountPageServices, ICategoryPageService categoryPageService, ILogger<MyAccountController> logger, IWishlistPageService productPageService, IHttpContextAccessor accessor, ICommonHelper commonHelper)
         {
             _myAccountPageService = myAccountPageServices ?? throw new ArgumentNullException(nameof(myAccountPageServices));
             _categoryPageService = categoryPageService ?? throw new ArgumentNullException(nameof(categoryPageService));
@@ -32,6 +36,7 @@ namespace ShooppyMegaMall.UI.Controllers
             _logger = logger ?? throw new ArgumentNullException();
             _commonHelper = commonHelper;
             _config = config;
+            this.hostingEnvironment = hostingEnvironment;
         }
         [HttpGet]
         public async Task<IActionResult> myAccount(int profileId,int CategoryId)
@@ -97,20 +102,24 @@ namespace ShooppyMegaMall.UI.Controllers
         }
         private async Task<string> UploadProfileImage(MainModel account)
         {
-            int OrgId = _commonHelper.GetOrgID(HttpContext);
-            string filepath = null;
+            string productimg = string.Empty;
+            string Image = string.Empty;
             try
             {
-                AWS_Helper aws = new AWS_Helper(_config);
+                AWS_Helper aws = new AWS_Helper(_config, hostingEnvironment);
+                productimg = _config.GetSection("AWSAppSettings")["awsfolderkey"] + account.OrgId + _config.GetSection("AWSAppSettings")["Products"];
                 if (account.ProfileImage != null)
                 {
-                    filepath = _config.GetSection("AWSAppSettings")["awsfolderkey"] + OrgId + _config.GetSection("AWSAppSettings")["awscoverimages_Profile"];
-                    await aws.uploadfile(account.ProfileImage, filepath);
+                    Image = productimg + "File_" + Path.GetFileNameWithoutExtension(account.ProfileImage.FileName) + '_' + DateTime.Now.ToString("yyyyMMddHHmm") + Path.GetExtension(account.ProfileImage.FileName);
+                    return await aws.uploadfile(account.ProfileImage, productimg);
+
                 }
-                return _config.GetSection("AWSAppSettings")["AwsMain_Link"] + filepath + account.ProfileImage.FileName;
+
+                return _config.GetSection("AWSAppSettings")["AwsMain_Link"] + Image;
             }
             catch (Exception e)
             {
+                _commonHelper.LogError(e.Message);
                 throw e;
             }
         }

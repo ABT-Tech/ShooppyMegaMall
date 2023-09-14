@@ -39,6 +39,7 @@ namespace ShooppyMegaMall.Core.Entities
         //public string brands { get; set; }
         //public string brandsurlpath { get; set; }
         //public int brandid { get; set; }
+        public int? OrgId { get; set; }
         //public string status { get; set; }
         public Nullable<int> totalpick { get; set; }
     }

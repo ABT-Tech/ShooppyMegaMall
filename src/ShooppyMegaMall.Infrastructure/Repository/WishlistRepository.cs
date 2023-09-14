@@ -20,7 +20,7 @@ namespace ShooppyMegaMall.Infrastructure.Repository
         }
         public async Task<List<SP_UserWishList>> GetWishList(string Username, int OrgId)
         {
-            string sql = "exec UserWishList @OrgId,@Username";
+            string sql = "exec UserWishList_ShoppyMall @OrgId,@Username";
             List<SqlParameter> parms = new List<SqlParameter>
             { 
                 // Create parameters    
@@ -49,17 +49,15 @@ namespace ShooppyMegaMall.Infrastructure.Repository
             //};
             //return await _dbContext.Set<F_Orders_All>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
 
-            string sql = "select * from f_order_masterDetails()";
+            string sql = "EXEC SP_order_masterDetails @orgid, @userName";
             List<SqlParameter> parms = new List<SqlParameter>
             {
-                //new SqlParameter { ParameterName = "@orgid", Value = Orgid },
-                //new SqlParameter { ParameterName = "@profileid", Value = ProfileId }
+                new SqlParameter { ParameterName = "@orgid", Value = Orgid },
+                new SqlParameter { ParameterName = "@userName", Value = username }
             };
 
-          return await _dbContext.Set<f_order_masterDetails>().FromSqlRaw(sql, parms.ToArray()).
-                Where( x=>x.UserName == username && x.OrgId == Orgid).ToListAsync();
+          return await _dbContext.Set<f_order_masterDetails>().FromSqlRaw(sql, parms.ToArray()).ToListAsync();
 
-            //return dataa.Where(x => x.OrderStatus == "Confirmed" && x.UserName == username).ToList();
         }
         public async Task<List<F_Pending_Orders>> GetPendingOrders(int Orgid,int ProfileId)
         {
@@ -97,7 +95,7 @@ namespace ShooppyMegaMall.Infrastructure.Repository
 
         public async Task AddtoWishList(CustomerWishlist wishlist)
         {
-            var check = await _dbContext.CustomerWishlist.Where(x =>x.ProductId == wishlist.ProductId&&x.OrgId==wishlist.OrgId&&x.UserName==wishlist.UserName && x.ProductSpecificationId == wishlist.ProductSpecificationId).FirstOrDefaultAsync();
+            var check = await _dbContext.CustomerWishlist.Where(x =>x.ProductId == wishlist.ProductId&&x.UserName==wishlist.UserName && x.ProductSpecificationId == wishlist.ProductSpecificationId).FirstOrDefaultAsync();
            
             if(check == null)
             {

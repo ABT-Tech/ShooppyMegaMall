@@ -64,19 +64,19 @@ namespace ShooppyMegaMall.UI.Helpers
 
         public int GetOrgID(HttpContext httpContext)
         {
-            int orgid = 1;
-            var subdomain = GetSubDomain(httpContext);
-            if (subdomain.Contains("localhost"))
-                orgid = 19;
-            else
-            {
-                LogError(subdomain);
-                var orgObject = _dbContext.Organization.Where(x => x.OrgName == subdomain).FirstOrDefault();
-                if (orgObject != null)
-                    orgid = orgObject.Id;
-                else
-                    orgid = 0;
-            }
+            int orgid = 0;
+            //var subdomain = GetSubDomain(httpContext);
+            //if (subdomain.Contains("localhost"))
+            //    orgid = 0;
+            //else
+            //{
+            //    LogError(subdomain);
+            //    var orgObject = _dbContext.Organization.Where(x => x.OrgName == subdomain).FirstOrDefault();
+            //    if (orgObject != null)
+            //        orgid = orgObject.Id;
+            //    else
+            //        orgid = 0;
+            //}
             return orgid;
 
         }

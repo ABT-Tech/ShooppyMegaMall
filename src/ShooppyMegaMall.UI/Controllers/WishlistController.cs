@@ -37,9 +37,9 @@ namespace ShooppyMegaMall.UI.Controllers
             int OrgId = _commonHelper.GetOrgID(HttpContext);
             string userName = User.Identity.Name;
             var brands = await _BrandPageService.GetBrands(OrgId);
-            brands.CategoryMaster = await _categoryPageService.DisplayLogo(OrgId);
-            brands.Categories = await _categoryPageService.GetCategories(CategoryId,OrgId);
-            brands.ProductsDetails = await _categoryPageService.GetProductList(OrgId);
+            //brands.CategoryMaster = await _categoryPageService.DisplayLogo(OrgId);
+            //brands.Categories = await _categoryPageService.GetCategories(CategoryId,OrgId);
+            //brands.ProductsDetails = await _categoryPageService.GetProductList(OrgId);
             brands.Wishlists=await _productWishListService.GetWishList(userName, OrgId);
             return View(brands);
         }
